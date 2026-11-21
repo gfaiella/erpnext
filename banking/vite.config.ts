@@ -22,6 +22,11 @@ export default defineConfig({
 		emptyOutDir: true,
 		target: 'es2015',
 		rollupOptions: {
+			// Frappe-served assets (e.g. Inter fonts in index.css) only
+			// exist at runtime on the bench; declaring them external keeps
+			// the URLs untouched and silences the expected
+			// "didn't resolve at build time" notice.
+			external: [/^\/assets\/frappe\//],
 			output: {
 				manualChunks(id) {
 					if (!id.includes('node_modules')) {
